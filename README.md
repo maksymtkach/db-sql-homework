@@ -11,7 +11,7 @@ erDiagram
         varchar last_name
         varchar email
         varchar password
-        int avatar_id FK
+        int avatar_id
         datetime created_at
         datetime updated_at
     }
@@ -33,9 +33,9 @@ erDiagram
         float budget
         date release_date
         int duration
-        int director_id FK
-        int country_id FK
-        int poster_id FK
+        int director_id
+        int country_id
+        int poster_id
         datetime created_at
         datetime updated_at
     }
@@ -44,9 +44,9 @@ erDiagram
         int id PK
         varchar name
         text description
-        enum role {'leading', 'supporting', 'background'}
-        int movie_id FK
-        int actor_id FK
+        varchar role
+        int movie_id
+        int actor_id
         datetime created_at
         datetime updated_at
     }
@@ -57,9 +57,9 @@ erDiagram
         varchar last_name
         text biography
         date date_of_birth
-        enum gender {'male', 'female', 'other'}
-        int country_id FK
-        int primary_photo_id FK
+        varchar gender
+        int country_id
+        int primary_photo_id
         datetime created_at
         datetime updated_at
     }
@@ -79,35 +79,38 @@ erDiagram
     }
 
     MOVIE_GENRE {
-        int movie_id PK FK
-        int genre_id PK FK
+        int id PK
+        int movie_id
+        int genre_id
         datetime created_at
         datetime updated_at
     }
 
     FAVORITE_MOVIE {
-        int user_id PK FK
-        int movie_id PK FK
+        int id PK
+        int user_id
+        int movie_id
         datetime created_at
         datetime updated_at
     }
 
     PERSON_PHOTO {
-        int person_id PK FK
-        int file_id PK FK
+        int id PK
+        int person_id
+        int file_id
         datetime created_at
         datetime updated_at
     }
 
-    USER ||--|{ FILE : "has"
-    MOVIE ||--|{ FILE : "has"
-    MOVIE ||--|{ COUNTRY : "belongs to"
+    USER ||--o{ FILE : "has"
+    MOVIE ||--o{ FILE : "has"
+    MOVIE ||--|| COUNTRY : "belongs to"
     MOVIE ||--o{ GENRE : "has"
     MOVIE ||--o| PERSON : "directed by"
     CHARACTER }o--|| MOVIE : "appears in"
     CHARACTER }o--|| PERSON : "played by"
-    PERSON ||--|{ COUNTRY : "belongs to"
-    PERSON ||--|{ FILE : "has"
+    PERSON ||--|| COUNTRY : "belongs to"
+    PERSON ||--o{ FILE : "has"
     PERSON }o--|| MOVIE : "directed"
     USER ||--o{ FAVORITE_MOVIE : "has favorite"
     MOVIE ||--o{ FAVORITE_MOVIE : "is favorite in"
@@ -115,5 +118,4 @@ erDiagram
     MOVIE ||--o{ MOVIE_GENRE : "has"
     PERSON ||--o{ PERSON_PHOTO : "has"
     FILE ||--o{ PERSON_PHOTO : "is used in"
-
 ```
